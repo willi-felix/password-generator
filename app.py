@@ -5,6 +5,8 @@ import os
 
 app = Flask(__name__)
 
+PASSWORD_FILE_PATH = 'password-created.txt'
+
 def generate_password(length, include_uppercase, include_digits, include_special):
     characters = string.ascii_lowercase
     if include_uppercase:
