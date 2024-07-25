@@ -124,3 +124,28 @@ $(document).ready(function() {
     const dateString = `${now.getHours()}:${now.getMinutes()} ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
     setCookie('lastVisit', dateString, 1);
 });
+
+def remove_duplicate_passwords(file_path, new_password_name):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    
+    with open(file_path, 'w') as file:
+        for line in lines:
+            if not line.startswith(new_password_name):
+                file.write(line)
+
+remove_duplicate_passwords('password-created.txt', password_name)
+
+def sort_passwords(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    
+    lines.sort(key=lambda line: line.split(' + ')[0])  # Adjust sorting key as needed
+    
+    with open(file_path, 'w') as file:
+        file.writelines(lines)
+
+def save_password_for_user(email, password_data):
+    file_name = f"password-create-{email.replace('@', '-').replace('.', '-')}.txt"
+    with open(file_name, 'w') as file:
+        file.write(password_data)
