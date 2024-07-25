@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Generator</h1>
+        <div class="form-group">
+            <label for="length">Password Length:</label>
+            <input type="range" id="length" min="8" max="25" value="8">
+            <span id="length-value">8</span>
+        </div>
+        <br>
+        <p>Password includes the following characters: (Leave blank if you only want lowercase letters)</p>
+        <div class="form-group">
+            <label><input type="checkbox" id="uppercase" checked> Include Uppercase Letters (ABC)</label>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox" id="digits" checked> Include Digits (123)</label>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox" id="special" checked> Include Special Characters (!; @; $;)</label>
+        </div>
+        <div class="form-group">
+            <label class="required" for="password_name">Password Name: (You need to give it a name to avoid mistaken passwords)</label>
+            <p>Ex: Name + Your Email</p>
+            <input type="text" id="password_name">
+        </div>
+        <button id="generate-btn" class="btn">Generate Password</button>
+        <div class="result">
+            <h3>Generated Password:</h3>
+            <div class="password-container">
+                <input type="text" id="password" readonly>
+                <button id="copyPasswordBtn" class="btn"><img src="https://img.icons8.com/?size=30&id=4O3il2FYLp9y&format=png&color=000000" alt="Copy"></button>
+                <button id="restart-btn" class="btn"><img src="https://img.icons8.com/?size=30&id=pq8XmOjdtk2v&format=png&color=000000" alt="Restart"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
