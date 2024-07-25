@@ -52,29 +52,37 @@ def index():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    data = request.json
-    length = data.get('length', 8)
-    include_uppercase = data.get('include_uppercase', True)
-    include_digits = data.get('include_digits', True)
-    include_special = data.get('include_special', True)
-    password_name = data.get('password_name', 'Unnamed')
-    user_email = data.get('email', 'user@example.com')  # Get user email if provided
+    try:
+        data = request.json
+        length = data.get('length', 8)
+        include_uppercase = data.get('include_uppercase', True)
+        include_digits = data.get('include_digits', True)
+        include_special = data.get('include_special', True)
+        password_name = data.get('password_name', 'Unnamed')
+        user_email = data.get('email', 'user@example.com')  # Get user email if provided
 
-    # Generate password
-    password = generate_password(length, include_uppercase, include_digits, include_special)
-    
-    # Remove duplicates and sort
-    remove_duplicate_passwords('password-created.txt', password_name)
-    with open('password-created.txt', 'a') as file:
-        file.write(f'{password_name}: {password}\n')
+        # Validate data
+        if not isinstance(length, int) or length < 8 or length > 25:
+            return jsonify({'error': 'Invalid password length'}), 400
 
-    # Save password to user-specific file
-    save_password_for_user(user_email, f'{password_name}: {password}')
+        # Generate password
+        password = generate_password(length, include_uppercase, include_digits, include_special)
+        
+        # Remove duplicates and sort
+        remove_duplicate_passwords('password-created.txt', password_name)
+        with open('password-created.txt', 'a') as file:
+            file.write(f'{password_name}: {password}\n')
 
-    # Sort passwords in the main file
-    sort_passwords('password-created.txt')
+        # Save password to user-specific file
+        save_password_for_user(user_email, f'{password_name}: {password}')
 
-    return jsonify({'password': password})
+        # Sort passwords in the main file
+        sort_passwords('password-created.txt')
+
+        return jsonify({'password': password})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
